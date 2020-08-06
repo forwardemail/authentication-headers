@@ -48,7 +48,10 @@ def get_domain_part(address):
     elif isinstance(address, str):
         address = bytes(address, 'utf8')
     res = re.findall(b'@([a-z0-9.]+)', address)
-    return res[0].decode('ascii')
+    if len(res) > 0:
+        return res[0].decode('ascii')
+    else:
+        return None
 
 
 def check_spf(ip, mail_from, helo):
