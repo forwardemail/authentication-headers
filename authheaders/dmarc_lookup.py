@@ -38,7 +38,7 @@ def answer_to_dict(answer):
     '''Turn the DNS DMARC answer into a dict of tag:value pairs.'''
     a = answer.strip('"').strip(' ')
     rawTags = [t.split('=') for t in a.split(';') if t]
-    retval = {t[0].strip(): t[1].strip() for t in rawTags}
+    retval = {t[0].strip(): t[1].strip() for t in rawTags if len(t) == 2}
     return retval
 
 def dns_query(name, qtype='TXT'):
