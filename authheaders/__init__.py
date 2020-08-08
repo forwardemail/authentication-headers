@@ -68,6 +68,10 @@ def check_dkim(msg, dnsfunc=None):
             res = d.verify() and 'pass' or 'fail'
     except DKIMException as e:
         res = 'fail'
+    except DNSException as e:
+        res = 'tempfail'
+    except Exception as e:
+        res = 'fail'
 
     header_i = d.signature_fields.get(b'i', b'').decode('ascii')
     header_d = d.signature_fields.get(b'd', b'').decode('ascii')
