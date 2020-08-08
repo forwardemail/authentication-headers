@@ -48,10 +48,12 @@ def get_domain_part(address):
     elif isinstance(address, str):
         address = bytes(address, 'utf8')
     res = re.findall(b'@([a-z0-9.]+)', address)
-    if len(res) > 0:
-        return res[0].decode('ascii')
-    else:
-        return None
+    return res[0].decode('ascii')
+    # TODO: this fix did not seem to work
+    # if len(res) > 0:
+    #     return res[0].decode('ascii')
+    # else:
+    #     return None
 
 
 def check_spf(ip, mail_from, helo):
@@ -66,10 +68,12 @@ def check_dkim(msg, dnsfunc=None):
             res = d.verify(dnsfunc=dnsfunc) and 'pass' or 'fail'
         else:
             res = d.verify() and 'pass' or 'fail'
+    # TODO: this could probably just be one line of:
+    #       `except Exception as e:`
     except DKIMException as e:
         res = 'fail'
     except DNSException as e:
-        res = 'tempfail'
+        res = 'fail'
     except Exception as e:
         res = 'fail'
 
@@ -92,6 +96,8 @@ def check_arc(msg, logger=None, dnsfunc=None):
             cv, results, comment = a.verify(dnsfunc=dnsfunc)
         else:
             cv, results, comment = a.verify()
+    # TODO: this could probably just be one line of:
+    #       `except Exception as e:`
     except DKIMException as e:
         cv, results, comment = CV_Fail, [], "%s" % e
     except DNSException as e:
