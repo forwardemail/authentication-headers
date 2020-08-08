@@ -94,6 +94,10 @@ def check_arc(msg, logger=None, dnsfunc=None):
             cv, results, comment = a.verify()
     except DKIMException as e:
         cv, results, comment = CV_Fail, [], "%s" % e
+    except DNSException as e:
+        cv, results, comment = CV_Fail, [], "%s" % e
+    except Exception as e:
+        cv, results, comment = CV_Fail, [], "%s" % e
 
     return ARCAuthenticationResult(result=cv.decode('ascii'))
 
