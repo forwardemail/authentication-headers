@@ -60,8 +60,8 @@ def check_spf(ip, mail_from, helo):
 
 
 def check_dkim(msg, dnsfunc=None):
-    d = DKIM(msg)
     try:
+        d = DKIM(msg)
         if(dnsfunc):
             res = d.verify(dnsfunc=dnsfunc) and 'pass' or 'fail'
         else:
